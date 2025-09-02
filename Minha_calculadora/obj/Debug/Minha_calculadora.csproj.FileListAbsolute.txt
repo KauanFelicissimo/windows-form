@@ -1,0 +1,10 @@
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\bin\Debug\Minha_calculadora.exe.config
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\bin\Debug\Minha_calculadora.exe
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\bin\Debug\Minha_calculadora.pdb
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\obj\Debug\Minha_calculadora.csproj.AssemblyReference.cache
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\obj\Debug\Minha_calculadora.Form1.resources
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\obj\Debug\Minha_calculadora.Properties.Resources.resources
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\obj\Debug\Minha_calculadora.csproj.GenerateResource.cache
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\obj\Debug\Minha_calculadora.csproj.CoreCompileInputs.cache
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\obj\Debug\Minha_calculadora.exe
+C:\Users\kauan.sfelicissimo\source\repos\Minha_calculadora\obj\Debug\Minha_calculadora.pdb
