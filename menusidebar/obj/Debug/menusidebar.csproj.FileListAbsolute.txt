@@ -1,0 +1,10 @@
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\bin\Debug\menusidebar.exe.config
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\bin\Debug\menusidebar.exe
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\bin\Debug\menusidebar.pdb
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\obj\Debug\menusidebar.csproj.AssemblyReference.cache
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\obj\Debug\menusidebar.Form1.resources
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\obj\Debug\menusidebar.Properties.Resources.resources
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\obj\Debug\menusidebar.csproj.GenerateResource.cache
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\obj\Debug\menusidebar.csproj.CoreCompileInputs.cache
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\obj\Debug\menusidebar.exe
+C:\Users\kauan.sfelicissimo\source\repos\menusidebar\obj\Debug\menusidebar.pdb
