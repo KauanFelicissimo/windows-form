@@ -15,6 +15,7 @@ namespace cadastro_admin
 {
     public partial class Form1 : Form
     {
+        bool menuExpand = true;
         MySqlConnection Aurora;
         string data_source = "datasource = localhost; username=root; password=; database=aurora-project";
         public Form1()
@@ -108,5 +109,38 @@ namespace cadastro_admin
 
         }
     }
+       
+
+        private void menu_Tick(object sender, EventArgs e)
+        {
+            if (menuExpand == false)
+            {
+                miniSideBar.Width += 10;
+                if (miniSideBar.Width >= 112)
+                {
+                    menu.Stop();
+                    menuExpand = true;
+                }
+            }
+            else
+            {
+                miniSideBar.Width -= 10;
+                if (miniSideBar.Width <= 0)
+                {
+                    menu.Stop();
+                    menuExpand = false;
+                }
+            }
+        }
+
+        private void pbMenu_Click(object sender, EventArgs e)
+        {
+            menu.Start();
+        }
+
+        private void btnAdmins_Click(object sender, EventArgs e)
+        {
+           Admins  
+        }
     }
 }

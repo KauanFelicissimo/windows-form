@@ -42,3 +42,4 @@ C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\System.Runtime
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro.23F5F290.Up2Date
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\BCrypt.Net-Next.StrongName.dll
+C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro_admin.Admin.resources

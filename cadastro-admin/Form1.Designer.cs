@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -40,24 +41,33 @@
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtPassword = new System.Windows.Forms.TextBox();
+            this.menu = new System.Windows.Forms.Timer(this.components);
+            this.miniSideBar = new System.Windows.Forms.Panel();
+            this.btnAdmins = new System.Windows.Forms.Button();
+            this.btnCadastro = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.panel1.SuspendLayout();
+            this.miniSideBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(12, 459);
+            this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEmail.Location = new System.Drawing.Point(871, 344);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(1898, 20);
+            this.txtEmail.Size = new System.Drawing.Size(193, 40);
             this.txtEmail.TabIndex = 0;
+            this.txtEmail.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(12, 408);
+            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtName.Location = new System.Drawing.Point(871, 427);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(1898, 20);
+            this.txtName.Size = new System.Drawing.Size(193, 40);
             this.txtName.TabIndex = 1;
+            this.txtName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnRegister
             // 
@@ -66,9 +76,9 @@
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.Location = new System.Drawing.Point(880, 555);
+            this.btnRegister.Location = new System.Drawing.Point(871, 581);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(184, 55);
+            this.btnRegister.Size = new System.Drawing.Size(193, 55);
             this.btnRegister.TabIndex = 3;
             this.btnRegister.Text = "Confirm";
             this.btnRegister.UseVisualStyleBackColor = false;
@@ -78,7 +88,7 @@
             // 
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.Location = new System.Drawing.Point(932, 431);
+            this.lblEmail.Location = new System.Drawing.Point(933, 316);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(70, 25);
             this.lblEmail.TabIndex = 4;
@@ -106,7 +116,7 @@
             // 
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.Location = new System.Drawing.Point(932, 380);
+            this.lblName.Location = new System.Drawing.Point(933, 399);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(72, 25);
             this.lblName.TabIndex = 7;
@@ -122,6 +132,7 @@
             this.pbMenu.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbMenu.TabIndex = 8;
             this.pbMenu.TabStop = false;
+            this.pbMenu.Click += new System.EventHandler(this.pbMenu_Click);
             // 
             // pbLogo
             // 
@@ -146,11 +157,51 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(12, 507);
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPassword.Location = new System.Drawing.Point(871, 507);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(1898, 20);
+            this.txtPassword.Size = new System.Drawing.Size(193, 40);
             this.txtPassword.TabIndex = 2;
+            this.txtPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPassword.UseSystemPasswordChar = true;
+            // 
+            // menu
+            // 
+            this.menu.Interval = 10;
+            this.menu.Tick += new System.EventHandler(this.menu_Tick);
+            // 
+            // miniSideBar
+            // 
+            this.miniSideBar.BackColor = System.Drawing.Color.White;
+            this.miniSideBar.Controls.Add(this.btnCadastro);
+            this.miniSideBar.Controls.Add(this.btnAdmins);
+            this.miniSideBar.Location = new System.Drawing.Point(0, 44);
+            this.miniSideBar.Name = "miniSideBar";
+            this.miniSideBar.Size = new System.Drawing.Size(112, 90);
+            this.miniSideBar.TabIndex = 11;
+            // 
+            // btnAdmins
+            // 
+            this.btnAdmins.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnAdmins.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdmins.Location = new System.Drawing.Point(12, 11);
+            this.btnAdmins.Name = "btnAdmins";
+            this.btnAdmins.Size = new System.Drawing.Size(84, 23);
+            this.btnAdmins.TabIndex = 0;
+            this.btnAdmins.Text = "ADMINS";
+            this.btnAdmins.UseVisualStyleBackColor = true;
+            this.btnAdmins.Click += new System.EventHandler(this.btnAdmins_Click);
+            // 
+            // btnCadastro
+            // 
+            this.btnCadastro.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnCadastro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCadastro.Location = new System.Drawing.Point(12, 53);
+            this.btnCadastro.Name = "btnCadastro";
+            this.btnCadastro.Size = new System.Drawing.Size(84, 23);
+            this.btnCadastro.TabIndex = 12;
+            this.btnCadastro.Text = "CADASTRO";
+            this.btnCadastro.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -159,6 +210,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
+            this.Controls.Add(this.miniSideBar);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtPassword);
@@ -177,6 +229,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.miniSideBar.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,6 +248,10 @@
         private System.Windows.Forms.PictureBox pbLogo;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Timer menu;
+        private System.Windows.Forms.Panel miniSideBar;
+        private System.Windows.Forms.Button btnAdmins;
+        private System.Windows.Forms.Button btnCadastro;
     }
 }
 
