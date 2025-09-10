@@ -2,7 +2,6 @@ C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\cadastro-admin
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\cadastro-admin.exe
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\cadastro-admin.pdb
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro-admin.csproj.AssemblyReference.cache
-C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro_admin.Form1.resources
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro_admin.Properties.Resources.resources
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro-admin.csproj.GenerateResource.cache
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro-admin.csproj.CoreCompileInputs.cache
@@ -43,3 +42,4 @@ C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\System.Threadi
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro.23F5F290.Up2Date
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\bin\Debug\BCrypt.Net-Next.StrongName.dll
 C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro_admin.Admin.resources
+C:\Users\kauan.sfelicissimo\source\repos\cadastro-admin\obj\Debug\cadastro_admin.frmCadastro.resources

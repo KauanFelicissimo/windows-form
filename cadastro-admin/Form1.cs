@@ -13,12 +13,12 @@ using BCrypt.Net;
 
 namespace cadastro_admin
 {
-    public partial class Form1 : Form
+    public partial class frmCadastro : Form
     {
         bool menuExpand = true;
         MySqlConnection Aurora;
         string data_source = "datasource = localhost; username=root; password=; database=aurora-project";
-        public Form1()
+        public frmCadastro()
         {
            
 
@@ -140,7 +140,24 @@ namespace cadastro_admin
 
         private void btnAdmins_Click(object sender, EventArgs e)
         {
-           Admins  
+            Admin tela = new Admin();
+
+            // Quando a nova tela for fechada, fecha também a atual
+            tela.FormClosed += (s, args) => this.Close();
+
+            this.Hide(); // só esconde a atual
+            tela.Show();
+        }
+
+        private void btnCadastro_Click(object sender, EventArgs e)
+        {
+            frmCadastro tela = new frmCadastro();
+
+            // Quando a nova tela for fechada, fecha também a atual
+            tela.FormClosed += (s, args) => this.Close();
+
+            this.Hide(); // só esconde a atual
+            tela.Show();
         }
     }
 }
