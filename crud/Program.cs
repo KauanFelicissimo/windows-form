@@ -16,7 +16,7 @@ namespace crud
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmCadastroDeClientes());
+            Application.Run(new frmCadastro());
         }
     }
 }
