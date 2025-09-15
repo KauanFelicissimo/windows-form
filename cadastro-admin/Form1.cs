@@ -15,9 +15,26 @@ namespace cadastro_admin
 {
     public partial class frmCadastro : Form
     {
+
+        public string AdminId { get; set; } // ID do usuário que vamos editar
+    public string AdminName
+    {
+        get => txtName.Text;
+        set => txtName.Text = value;
+    }
+    public string AdminEmail
+    {
+        get => txtEmail.Text;
+        set => txtEmail.Text = value;
+    }
+    public string AdminPassword
+    {
+        get => txtPassword.Text;
+        set => txtPassword.Text = value;
+    }
         bool menuExpand = true;
         MySqlConnection Aurora;
-        string data_source = "datasource = localhost; username=root; password=; database=aurora-project";
+        string data_source = "datasource = localhost; username=root; password=; database=aurora-platform";
         public frmCadastro()
         {
            
@@ -33,7 +50,7 @@ namespace cadastro_admin
                     string.IsNullOrEmpty(txtName.Text.Trim()) ||
                     string.IsNullOrEmpty(txtPassword.Text.Trim()))
                 {
-                    MessageBox.Show("Para cadastrar um novo usuário todos os campos devem ser preenchidos.",
+                    MessageBox.Show("Todos os campos devem ser preenchidos.",
                                     "Validação",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning);
@@ -56,10 +73,19 @@ namespace cadastro_admin
                     Connection = Aurora,
                 };
 
-                cmd.Prepare();
-                cmd.CommandText = "INSERT INTO users(name, username, email, `password`, role) " +
-                  "VALUES(@name, @username, @email, @password, 'admin')";
-
+                if (string.IsNullOrEmpty(AdminId))
+                {
+                    // CADASTRO
+                    cmd.CommandText = "INSERT INTO users(name, username, email, `password`, role) " +
+                                      "VALUES(@name, @username, @email, @password, 'admin')";
+                }
+                else
+                {
+                    // UPDATE
+                    cmd.CommandText = "UPDATE users SET name=@name, username=@username, email=@email, `password`=@password " +
+                                      "WHERE id=@id";
+                    cmd.Parameters.AddWithValue("@id", AdminId);
+                }
 
                 cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
                 cmd.Parameters.AddWithValue("@username", txtName.Text.Trim());
@@ -68,47 +94,40 @@ namespace cadastro_admin
 
                 cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Admin salvo com Sucesso: ",
-                                "Parabens",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-                }
+                string msg = string.IsNullOrEmpty(AdminId) ? "Admin cadastrado com sucesso!" : "Admin atualizado com sucesso!";
+                MessageBox.Show(msg, "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                catch (MySqlException ex)
-                {
-                MessageBox.Show("Ocorreu: " + ex.Number + "ocorreu: "+ ex.Message,
-                                "Erro",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.OK; // para atualizar a ListView no form anterior
+                this.Close();
 
-                }
-
-                catch (Exception ex)
-                {
-                MessageBox.Show("Ocorreu: " + ex.Message,
-                                "Erro", 
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-                
-                }
-
-                finally 
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Ocorreu: " + ex.Number + " - " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocorreu: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (Aurora != null && Aurora.State == ConnectionState.Open)
                 {
 
-                    if (Aurora != null && Aurora.State == ConnectionState.Open)
-                    {
-                       Aurora.Close();
-                    }
 
-
-               
-                
+                    Aurora.Close();
+                }
+            }
 
 
 
+
+
+
+        
 
         }
-    }
+    
        
 
         private void menu_Tick(object sender, EventArgs e)

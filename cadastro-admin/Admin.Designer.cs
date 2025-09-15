@@ -51,9 +51,9 @@
             this.miniSideBar.BackColor = System.Drawing.Color.White;
             this.miniSideBar.Controls.Add(this.btnCadastro);
             this.miniSideBar.Controls.Add(this.btnAdmins);
-            this.miniSideBar.Location = new System.Drawing.Point(0, 55);
+            this.miniSideBar.Location = new System.Drawing.Point(0, 48);
             this.miniSideBar.Name = "miniSideBar";
-            this.miniSideBar.Size = new System.Drawing.Size(113, 95);
+            this.miniSideBar.Size = new System.Drawing.Size(113, 89);
             this.miniSideBar.TabIndex = 13;
             // 
             // btnCadastro
@@ -127,6 +127,8 @@
             this.lstAdmins.TabIndex = 14;
             this.lstAdmins.UseCompatibleStateImageBehavior = false;
             this.lstAdmins.View = System.Windows.Forms.View.Details;
+            this.lstAdmins.SelectedIndexChanged += new System.EventHandler(this.lstAdmins_SelectedIndexChanged);
+            this.lstAdmins.DoubleClick += new System.EventHandler(this.lstAdmins_DoubleClick);
             // 
             // txtSearch
             // 

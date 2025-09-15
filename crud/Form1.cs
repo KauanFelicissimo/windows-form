@@ -306,6 +306,41 @@ namespace crud
 
             txtNomeCompleto.Focus();
         }
+        private void AtualizarAdmin()
+        {
+            if (string.IsNullOrWhiteSpace(txtId.Text))
+                return; // nenhum admin selecionado
+
+            string query = "UPDATE users SET " +
+                           "name = @name, " +
+                           "email = @email, " +
+                           "role = @role " +
+                           "WHERE id = @id";
+
+            try
+            {
+                Aurora = new MySqlConnection(data_source);
+                Aurora.Open();
+
+                MySqlCommand cmd = new MySqlCommand(query, Aurora);
+                cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
+                cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                cmd.Parameters.AddWithValue("@role", txtRole.Text.Trim());
+                cmd.Parameters.AddWithValue("@id", txtId.Text);
+
+                cmd.ExecuteNonQuery();
+                carregar_admins(); // recarrega o ListView
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao atualizar: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (Aurora != null && Aurora.State == System.Data.ConnectionState.Open)
+                    Aurora.Close();
+            }
+        }
     }
      
 }

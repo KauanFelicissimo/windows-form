@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace cadastro_admin
 {
@@ -8,7 +9,7 @@ namespace cadastro_admin
     {
         bool menuExpand = true;
         MySqlConnection Aurora;
-        string data_source = "datasource=localhost;username=root;password=;database=aurora-project";
+        string data_source = "datasource=localhost;username=root;password=;database=aurora-platform";
 
         public Admin()
         {
@@ -24,8 +25,15 @@ namespace cadastro_admin
             lstAdmins.GridLines = true;
             lstAdmins.Columns.Clear();
 
+            lstAdmins.MouseDoubleClick += lstAdmins_DoubleClick;
+            lstAdmins.LabelEdit = true;
+
+
+
             // Adiciona colunas
-            lstAdmins.Columns.Add("Name", 200, HorizontalAlignment.Left);
+            lstAdmins.Columns.Clear();
+            lstAdmins.Columns.Add("Name", 200, HorizontalAlignment.Left); // primeira coluna editável
+            lstAdmins.Columns.Add("ID", 200, HorizontalAlignment.Left);
             lstAdmins.Columns.Add("Email", 200, HorizontalAlignment.Left);
             lstAdmins.Columns.Add("Role", 150, HorizontalAlignment.Left);
 
@@ -35,7 +43,7 @@ namespace cadastro_admin
 
         private void carregar_admins()
         {
-            string query = "SELECT name, email, role FROM users WHERE role = 'admin'";
+            string query = "SELECT id ,name, email, role FROM users WHERE role = 'admin'";
             carregar_clientes_com_query(query);
         }
 
@@ -57,6 +65,7 @@ namespace cadastro_admin
                 while (reader.Read())
                 {
                     string[] row = {
+                        reader["id"].ToString(),
                         reader.GetString("name"),
                         reader.GetString("email"),
                         reader.GetString("role")
@@ -85,7 +94,7 @@ namespace cadastro_admin
         private void btnSearch_Click(object sender, EventArgs e)
         {
             // Corrigido: seleciona todas as colunas necessárias
-            string query = "SELECT name, email, role FROM users " +
+            string query = "SELECT id, name, email, role FROM users " +
                            "WHERE role = 'admin' AND (name LIKE @q) " +
                            "ORDER BY name ASC";
 
@@ -139,6 +148,85 @@ namespace cadastro_admin
 
             this.Hide(); // só esconde a atual
             tela.Show();
+        }
+
+        private void lstAdmins_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+    
+
+private void lstAdmins_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.Label))
+                return;
+
+            string id = lstAdmins.Items[e.Item].SubItems[0].Text; // pega o ID do admin
+            string novoNome = e.Label;
+
+            // Pergunta ao usuário se deseja realmente editar
+            DialogResult resultado = MessageBox.Show(
+                $"Deseja alterar o nome do admin para '{novoNome}'?",
+                "Confirmar edição",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                // Atualiza no banco
+                string query = "UPDATE users SET name=@name WHERE id=@id";
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(data_source))
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@name", novoNome);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Nome atualizado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    carregar_admins(); // recarrega a lista
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao atualizar: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // Se o usuário cancelar, restaura o valor antigo
+                e.CancelEdit = true;
+            }
+        }
+
+        private void lstAdmins_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstAdmins.SelectedItems.Count == 0)
+                return;
+
+            ListViewItem item = lstAdmins.SelectedItems[0];
+
+            string id = item.SubItems[0].Text;
+            string name = item.SubItems[1].Text;
+            string email = item.SubItems[2].Text;
+
+            // Cria e preenche o Form1
+            frmCadastro editForm = new frmCadastro();
+            editForm.AdminId = id;
+            editForm.AdminName = name;
+            editForm.AdminEmail = email;
+
+            // Mostra o form como modal
+            if (editForm.ShowDialog() == DialogResult.OK)
+            {
+                // Quando o usuário clicar em salvar, atualiza a ListView
+                carregar_admins();
+            }
         }
     }
 }
