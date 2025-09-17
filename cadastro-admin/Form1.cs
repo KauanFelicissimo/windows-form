@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BCrypt.Net; 
+using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Crypto.Generators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Crypto.Generators;
-using BCrypt.Net; 
+using System.Text.RegularExpressions;
 
 namespace cadastro_admin
 {
@@ -42,64 +43,108 @@ namespace cadastro_admin
             InitializeComponent();
         }
 
+        private bool EmailValido(string email)
+        {
+            string padrao = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, padrao, RegexOptions.IgnoreCase);
+        }
+
+
         private void btnRegister_Click(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(txtEmail.Text.Trim()) ||
-                    string.IsNullOrEmpty(txtName.Text.Trim()) ||
-                    string.IsNullOrEmpty(txtPassword.Text.Trim()))
-                {
-                    MessageBox.Show("Todos os campos devem ser preenchidos.",
-                                    "Validação",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string hashed = BCrypt.Net.BCrypt.HashPassword(txtPassword.Text.Trim(), workFactor: 10);
-
-                // Ajustar para $2y$ se vier $2a$ (compatibilidade com Laravel)
-                if (hashed.StartsWith("$2a$"))
-                {
-                    hashed = "$2y$" + hashed.Substring(4);
-                }
-
                 Aurora = new MySqlConnection(data_source);
                 Aurora.Open();
 
-                MySqlCommand cmd = new MySqlCommand
-                {
-                    Connection = Aurora,
-                };
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Aurora;
 
                 if (string.IsNullOrEmpty(AdminId))
                 {
-                    // CADASTRO
+                    // CADASTRO → todos os campos obrigatórios
+                    if (string.IsNullOrEmpty(txtEmail.Text.Trim()) ||
+                        string.IsNullOrEmpty(txtName.Text.Trim()) ||
+                        string.IsNullOrEmpty(txtPassword.Text.Trim()))
+                    {
+                        MessageBox.Show("Todos os campos devem ser preenchidos para cadastrar.",
+                                        "Validação",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (!EmailValido(txtEmail.Text.Trim()))
+                    {
+                        MessageBox.Show("Digite um email válido!",
+                                        "Validação",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    string hashed = BCrypt.Net.BCrypt.HashPassword(txtPassword.Text.Trim(), workFactor: 10);
+                    if (hashed.StartsWith("$2a$"))
+                        hashed = "$2y$" + hashed.Substring(4);
+
                     cmd.CommandText = "INSERT INTO users(name, username, email, `password`, role) " +
                                       "VALUES(@name, @username, @email, @password, 'admin')";
+                    cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
+                    cmd.Parameters.AddWithValue("@username", txtName.Text.Trim());
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                    cmd.Parameters.AddWithValue("@password", hashed);
+
                 }
                 else
                 {
-                    // UPDATE
-                    cmd.CommandText = "UPDATE users SET name=@name, username=@username, email=@email, `password`=@password " +
-                                      "WHERE id=@id";
+                    // UPDATE → só atualiza os campos preenchidos
+                    var updates = new List<string>();
+
+                    if (!string.IsNullOrEmpty(txtName.Text.Trim()))
+                    {
+                        updates.Add("name=@name, username=@username");
+                        cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@username", txtName.Text.Trim());
+                    }
+                    if (!string.IsNullOrEmpty(txtEmail.Text.Trim()))
+                    {
+                        updates.Add("email=@email");
+                        cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                    }
+                    if (!string.IsNullOrEmpty(txtPassword.Text.Trim()))
+                    {
+                        string hashed = BCrypt.Net.BCrypt.HashPassword(txtPassword.Text.Trim(), workFactor: 10);
+                        if (hashed.StartsWith("$2a$"))
+                            hashed = "$2y$" + hashed.Substring(4);
+
+                        updates.Add("`password`=@password");
+                        cmd.Parameters.AddWithValue("@password", hashed);
+                    }
+
+                    if (updates.Count == 0)
+                    {
+                        MessageBox.Show("Nenhum campo preenchido para atualizar.",
+                                        "Aviso",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    cmd.CommandText = "UPDATE users SET " + string.Join(", ", updates) + " WHERE id=@id";
                     cmd.Parameters.AddWithValue("@id", AdminId);
                 }
-
-                cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
-                cmd.Parameters.AddWithValue("@username", txtName.Text.Trim());
-                cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
-                cmd.Parameters.AddWithValue("@password", hashed);
 
                 cmd.ExecuteNonQuery();
 
                 string msg = string.IsNullOrEmpty(AdminId) ? "Admin cadastrado com sucesso!" : "Admin atualizado com sucesso!";
                 MessageBox.Show(msg, "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                this.DialogResult = DialogResult.OK; // para atualizar a ListView no form anterior
-                this.Close();
+                Admin tela = new Admin();
+                // quando a tela Admin for fechada, mostra novamente o cadastro ou fecha tudo
+                tela.FormClosed += (s, args) => this.Show();
 
+                this.Hide(); // esconde o cadastro
+                tela.Show();
             }
             catch (MySqlException ex)
             {
@@ -112,11 +157,7 @@ namespace cadastro_admin
             finally
             {
                 if (Aurora != null && Aurora.State == ConnectionState.Open)
-                {
-
-
                     Aurora.Close();
-                }
             }
 
 
@@ -124,7 +165,7 @@ namespace cadastro_admin
 
 
 
-        
+
 
         }
     
@@ -178,5 +219,7 @@ namespace cadastro_admin
             this.Hide(); // só esconde a atual
             tela.Show();
         }
+
+
     }
 }

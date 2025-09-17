@@ -20,7 +20,7 @@ namespace crud
         MySqlConnection Conexao;
         string data_source = "datasource = localhost; username=root; password=; database=db_cadastro";
 
-        private int ?codigo_cliente = null;
+        private int? codigo_cliente = null;
 
         public frmCadastro()
         {
@@ -158,7 +158,7 @@ namespace crud
                     Connection = Conexao
                 };
 
-                 
+
                 //preparamento dos dados que serão inseridos no banco de dados
 
                 cmd.Prepare();
@@ -208,16 +208,10 @@ namespace crud
                                     "Sucesso",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
-                   
+
                 }
 
-                codigo_cliente = null;
-                
-                // Limpa os campos após o sucesso
-                txtNomeCompleto.Text = string.Empty;
-                txtNomeSocial.Text = "";
-                txtEmail.Text = "";
-                txtCPF.Text = "";
+                limpar_formulario();
 
                 //Recarrega os clientes no ListView
                 carregar_cliente();
@@ -290,60 +284,111 @@ namespace crud
                 txtNomeSocial.Text = item.SubItems[2].Text;
                 txtEmail.Text = item.SubItems[3].Text;
                 txtCPF.Text = item.SubItems[4].Text;
+
+                btnExcluirCliente.Visible = true;
             }
 
         }
 
         private void btnNovoCliente_Click(object sender, EventArgs e)
         {
+            limpar_formulario();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            excluir_cliente();
+      
+
+        }
+
+        private void btnExcluirCliente_Click(object sender, EventArgs e)
+        {
+            excluir_cliente();
+            
+
+        }
+
+        private void excluir_cliente()
+        {
+            try
+            {
+                DialogResult opcaodigitada = MessageBox.Show("Tem certeza que deseja excluir o registro de código" + codigo_cliente + "?",
+                                "Tem certeza", MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Warning);
+
+                if (opcaodigitada == DialogResult.Yes)
+                {
+                    Conexao = new MySqlConnection(data_source);
+                    Conexao.Open();
+
+                    MySqlCommand cmd = new MySqlCommand();
+
+                    cmd.Connection = Conexao;
+
+                    cmd.Prepare();
+
+                    cmd.CommandText = "DELETE FROM dadosdocliente WHERE idcliente = @codigo";
+
+                    cmd.Parameters.AddWithValue("@codigo", codigo_cliente);
+
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Os dados do cliente foram exlcuídos!",
+                                    "Sucesso",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+
+                    limpar_formulario();
+
+                    carregar_cliente();
+
+                    tbControl.SelectedIndex = 1;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                //trata erros relacionados ao MYSQL, qualquer erro envolvendo o banco de dados será informado, importante na hora de testar o sistema pois ele avisa exatamente onde está o erro
+                MessageBox.Show("Erro" + ex.Number + " ocorreu: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+            catch (Exception ex)
+            {
+                //Trata outros tipos de erro,  qualquer erro envolvendo o back-end será informado, importante na hora de testar o sistema pois ele avisa exatamente onde está o erro
+                MessageBox.Show("Ocorreu: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            finally
+            {
+                //Garante que a conexão com o bnaco será fechada, mesmo se ocorrer um erro, deve sempre ser feito para a proteção dos dados
+                if (Conexao != null && Conexao.State == ConnectionState.Open)
+                {
+                    Conexao.Close();
+                }
+
+            }
+        }
+
+        private void limpar_formulario()
+        {
             codigo_cliente = null;
 
-            
+
             txtNomeCompleto.Text = string.Empty;
             txtNomeSocial.Text = "";
             txtEmail.Text = "";
             txtCPF.Text = "";
 
-            txtNomeCompleto.Focus();
-        }
-        private void AtualizarAdmin()
-        {
-            if (string.IsNullOrWhiteSpace(txtId.Text))
-                return; // nenhum admin selecionado
-
-            string query = "UPDATE users SET " +
-                           "name = @name, " +
-                           "email = @email, " +
-                           "role = @role " +
-                           "WHERE id = @id";
-
-            try
-            {
-                Aurora = new MySqlConnection(data_source);
-                Aurora.Open();
-
-                MySqlCommand cmd = new MySqlCommand(query, Aurora);
-                cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
-                cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
-                cmd.Parameters.AddWithValue("@role", txtRole.Text.Trim());
-                cmd.Parameters.AddWithValue("@id", txtId.Text);
-
-                cmd.ExecuteNonQuery();
-                carregar_admins(); // recarrega o ListView
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao atualizar: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (Aurora != null && Aurora.State == System.Data.ConnectionState.Open)
-                    Aurora.Close();
-            }
+            btnExcluirCliente.Visible = false;
         }
     }
-     
 }
+    
+
+
 
 
 

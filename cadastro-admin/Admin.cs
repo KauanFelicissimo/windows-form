@@ -32,9 +32,9 @@ namespace cadastro_admin
 
             // Adiciona colunas
             lstAdmins.Columns.Clear();
-            lstAdmins.Columns.Add("Name", 200, HorizontalAlignment.Left); // primeira coluna editável
-            lstAdmins.Columns.Add("ID", 200, HorizontalAlignment.Left);
-            lstAdmins.Columns.Add("Email", 200, HorizontalAlignment.Left);
+            lstAdmins.Columns.Add("ID", 200, HorizontalAlignment.Left); // primeira coluna editável
+            lstAdmins.Columns.Add("Name", 200, HorizontalAlignment.Left);
+            lstAdmins.Columns.Add("Email", 500, HorizontalAlignment.Left);
             lstAdmins.Columns.Add("Role", 150, HorizontalAlignment.Left);
 
             // Carrega dados do banco

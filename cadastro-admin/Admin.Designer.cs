@@ -120,10 +120,11 @@
             // 
             // lstAdmins
             // 
+            this.lstAdmins.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstAdmins.HideSelection = false;
-            this.lstAdmins.Location = new System.Drawing.Point(25, 220);
+            this.lstAdmins.Location = new System.Drawing.Point(398, 223);
             this.lstAdmins.Name = "lstAdmins";
-            this.lstAdmins.Size = new System.Drawing.Size(1839, 273);
+            this.lstAdmins.Size = new System.Drawing.Size(1050, 689);
             this.lstAdmins.TabIndex = 14;
             this.lstAdmins.UseCompatibleStateImageBehavior = false;
             this.lstAdmins.View = System.Windows.Forms.View.Details;
@@ -132,9 +133,10 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(25, 180);
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(656, 168);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(158, 20);
+            this.txtSearch.Size = new System.Drawing.Size(375, 29);
             this.txtSearch.TabIndex = 15;
             // 
             // btnSearch
@@ -144,9 +146,9 @@
             this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSearch.FlatAppearance.BorderSize = 0;
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Location = new System.Drawing.Point(189, 180);
+            this.btnSearch.Location = new System.Drawing.Point(1037, 163);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(25, 20);
+            this.btnSearch.Size = new System.Drawing.Size(47, 34);
             this.btnSearch.TabIndex = 16;
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
